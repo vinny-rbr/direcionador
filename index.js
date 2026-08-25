@@ -4,17 +4,17 @@ const express = require("express");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 
-const pool = require("./db");
-const authRoutes = require("./routes/auth");
-const dashboardRoutes = require("./routes/dashboard");
-const publicRoutes = require("./routes/public");
-const adminRoutes = require("./routes/admin");
+const pool = require("./server/db");
+const authRoutes = require("./server/routes/auth");
+const dashboardRoutes = require("./server/routes/dashboard");
+const publicRoutes = require("./server/routes/public");
+const adminRoutes = require("./server/routes/admin");
 
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "server", "views"));
 if (isProduction) app.set("trust proxy", 1);
 
 app.use(express.urlencoded({ extended: false }));
@@ -43,4 +43,8 @@ app.use("/admin", adminRoutes);
 app.use("/u", publicRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Direcionador rodando em http://localhost:${PORT}`));
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Direcionador rodando em http://localhost:${PORT}`));
+}
+
+module.exports = app;

@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "Direcionador — crie sua página de links (estilo Linktree) com contas, banco de dados e temas.",
-  "main": "server/index.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon server/index.js",
-    "start": "node server/index.js",
-    "migrate": "node server/migrate.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "migrate": "node server/migrate.js",
+    "vercel-build": "node server/migrate.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
