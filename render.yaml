@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: direcionador
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run migrate
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: direcionador-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+
+databases:
+  - name: direcionador-db
+    plan: free
+    databaseName: direcionador
+    user: direcionador
