@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-site-theme="mono" data-mode="dark">
+<head>
+  <%- include('partials/head') %>
+  <title>Painel — Direcionador</title>
+</head>
+<body class="app-shell">
+  <header class="app-nav">
+    <a class="brand" href="/">Direcionador</a>
+    <nav>
+      <a class="btn btn-ghost" href="/u/<%= user.username %>" target="_blank" rel="noopener">Ver minha página</a>
+      <form method="POST" action="/logout" style="display:inline">
+        <button class="btn btn-ghost" type="submit">Sair</button>
+      </form>
+    </nav>
+  </header>
+
+  <main class="dashboard">
+    <% if (message) { %><p class="flash"><%= message %></p><% } %>
+
+    <section class="panel">
+      <h2>Perfil</h2>
+      <form method="POST" action="/dashboard/profile">
+        <label>Nome
+          <input type="text" name="display_name" value="<%= user.display_name %>" maxlength="60">
+        </label>
+        <label>Bio
+          <input type="text" name="bio" value="<%= user.bio %>" maxlength="140">
+        </label>
+        <button class="btn btn-solid" type="submit">Salvar perfil</button>
+      </form>
+      <p class="hint">Sua página: <a href="/u/<%= user.username %>" target="_blank" rel="noopener">/u/<%= user.username %></a>
+        · Plano: <strong><%= user.plan === "pro" ? "PRO" : "Grátis" %></strong></p>
+    </section>
+
+    <section class="panel">
+      <h2>Links</h2>
+      <ul class="edit-list">
+        <% links.forEach((link, i) => { %>
+          <li>
+            <span class="edit-item-label"><%= link.label %><small><%= link.url %></small></span>
+            <div class="edit-item-actions">
+              <form method="POST" action="/dashboard/links/<%= link.id %>/move">
+                <input type="hidden" name="direction" value="up">
+                <button class="btn" type="submit" <%= i === 0 ? "disabled" : "" %>>&uarr;</button>
+              </form>
+              <form method="POST" action="/dashboard/links/<%= link.id %>/move">
+                <input type="hidden" name="direction" value="down">
+                <button class="btn" type="submit" <%= i === links.length - 1 ? "disabled" : "" %>>&darr;</button>
+              </form>
+              <form method="POST" action="/dashboard/links/<%= link.id %>/featured">
+                <button class="btn" type="submit"><%= link.featured ? "Destacado ✓" : "Destacar" %></button>
+              </form>
+              <form method="POST" action="/dashboard/links/<%= link.id %>/delete">
+                <button class="btn btn-danger" type="submit">Remover</button>
+              </form>
+            </div>
+          </li>
+        <% }) %>
+        <% if (!links.length) { %><li class="edit-empty">Nenhum link ainda.</li><% } %>
+      </ul>
+      <form method="POST" action="/dashboard/links" class="inline-form">
+        <input type="text" name="label" placeholder="Nome do link" required maxlength="40">
+        <input type="url" name="url" placeholder="https://..." required>
+        <select name="icon">
+          <option value="link">Genérico</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="briefcase">Portfólio</option>
+          <option value="cart">Loja</option>
+        </select>
+        <button class="btn btn-solid" type="submit">Adicionar link</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Redes sociais</h2>
+      <ul class="edit-list">
+        <% socials.forEach(social => { %>
+          <li>
+            <span class="edit-item-label"><%= social.icon %><small><%= social.url %></small></span>
+            <form method="POST" action="/dashboard/socials/<%= social.id %>/delete">
+              <button class="btn btn-danger" type="submit">Remover</button>
+            </form>
+          </li>
+        <% }) %>
+        <% if (!socials.length) { %><li class="edit-empty">Nenhuma rede social ainda.</li><% } %>
+      </ul>
+      <form method="POST" action="/dashboard/socials" class="inline-form">
+        <select name="icon">
+          <option value="instagram">Instagram</option>
+          <option value="github">GitHub</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="youtube">YouTube</option>
+        </select>
+        <input type="url" name="url" placeholder="https://..." required>
+        <button class="btn btn-solid" type="submit">Adicionar rede</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Tema</h2>
+      <div class="theme-grid">
+        <% Object.entries(themes).forEach(([key, def]) => { %>
+          <form method="POST" action="/dashboard/theme" class="theme-card <%= user.theme === key ? 'theme-card--active' : '' %>">
+            <input type="hidden" name="theme" value="<%= key %>">
+            <div class="theme-swatch" data-site-theme="<%= key %>"></div>
+            <span><%= def.name %></span>
+            <% if (!def.free && user.plan !== "pro") { %>
+              <span class="lock-badge">🔒 PRO</span>
+              <button class="btn" type="submit" disabled>Bloqueado</button>
+            <% } else { %>
+              <button class="btn" type="submit"><%= user.theme === key ? "Selecionado" : "Usar este" %></button>
+            <% } %>
+          </form>
+        <% }) %>
+      </div>
+      <% if (user.plan !== "pro") { %>
+        <p class="hint">Quer todos os temas? <a href="#">Assine o PRO</a></p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

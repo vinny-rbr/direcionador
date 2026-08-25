@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-site-theme="mono" data-mode="dark">
+<head>
+  <%- include('partials/head') %>
+  <title>Criar conta — Direcionador</title>
+</head>
+<body class="app-shell">
+  <header class="app-nav">
+    <a class="brand" href="/">Direcionador</a>
+  </header>
+  <main class="auth-card">
+    <h1>Criar sua conta</h1>
+    <% if (error) { %><p class="form-error"><%= error %></p><% } %>
+    <form method="POST" action="/signup">
+      <label>Nome de exibição
+        <input type="text" name="display_name" placeholder="Seu nome" maxlength="60">
+      </label>
+      <label>Usuário (sua página: /u/seuusuario)
+        <input type="text" name="username" placeholder="seuusuario" required pattern="[a-z0-9_\-]{3,30}">
+      </label>
+      <label>E-mail
+        <input type="email" name="email" required>
+      </label>
+      <label>Senha
+        <input type="password" name="password" required minlength="6">
+      </label>
+      <button class="btn btn-solid" type="submit">Criar conta</button>
+    </form>
+    <p class="auth-alt">Já tem conta? <a href="/login">Entrar</a></p>
+  </main>
+</body>
+</html>

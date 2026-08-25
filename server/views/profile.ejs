@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-site-theme="<%= themeKey %>" data-mode="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="<%= user.display_name %> — <%= user.bio %>">
+  <link rel="icon" href="data:,">
+  <title><%= user.display_name %> — Direcionador</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/themes.css">
+</head>
+<body>
+  <% if (themeDef.toggle) { %>
+  <button id="theme-toggle" type="button" aria-label="Alternar tema claro/escuro">
+    <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+    </svg>
+    <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path>
+    </svg>
+  </button>
+  <% } %>
+
+  <main id="container">
+    <div id="profile">
+      <div id="avatar"><span id="avatar-initials"><%= initials %></span></div>
+      <p id="profile-name"><%= user.display_name %></p>
+      <span id="profile-bio"><%= user.bio %></span>
+    </div>
+
+    <ul id="links-list">
+      <% links.forEach(link => { %>
+        <li class="<%= link.featured ? "featured" : "" %>">
+          <a href="<%= link.url %>" target="_blank" rel="noopener">
+            <%- icons[link.icon] || icons.link %>
+            <span><%= link.label %></span>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+
+    <% if (socials.length) { %>
+    <div id="social-links">
+      <% socials.forEach(social => { %>
+        <a href="<%= social.url %>" target="_blank" rel="noopener" aria-label="<%= social.icon %>">
+          <%- icons[social.icon] || icons.link %>
+        </a>
+      <% }) %>
+    </div>
+    <% } %>
+
+    <footer>
+      Feito com <strong>Direcionador</strong> — <a href="/">crie o seu</a>
+    </footer>
+  </main>
+
+  <% if (themeDef.toggle) { %>
+  <script src="/js/site.js"></script>
+  <% } %>
+</body>
+</html>

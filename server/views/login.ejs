@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-site-theme="mono" data-mode="dark">
+<head>
+  <%- include('partials/head') %>
+  <title>Entrar — Direcionador</title>
+</head>
+<body class="app-shell">
+  <header class="app-nav">
+    <a class="brand" href="/">Direcionador</a>
+  </header>
+  <main class="auth-card">
+    <h1>Entrar</h1>
+    <% if (error) { %><p class="form-error"><%= error %></p><% } %>
+    <form method="POST" action="/login">
+      <label>E-mail
+        <input type="email" name="email" required>
+      </label>
+      <label>Senha
+        <input type="password" name="password" required>
+      </label>
+      <button class="btn btn-solid" type="submit">Entrar</button>
+    </form>
+    <p class="auth-alt">Ainda não tem conta? <a href="/signup">Criar grátis</a></p>
+  </main>
+</body>
+</html>

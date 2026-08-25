@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-site-theme="mono" data-mode="dark">
+<head>
+  <%- include('partials/head') %>
+  <title>Admin — Direcionador</title>
+</head>
+<body class="app-shell">
+  <header class="app-nav">
+    <a class="brand" href="/">Direcionador</a>
+    <nav><a class="btn btn-ghost" href="/dashboard">Painel</a></nav>
+  </header>
+  <main class="dashboard">
+    <section class="panel">
+      <h2>Usuários</h2>
+      <ul class="edit-list">
+        <% users.forEach(u => { %>
+          <li>
+            <span class="edit-item-label">@<%= u.username %><small><%= u.email %> · <%= u.plan %></small></span>
+            <form method="POST" action="/admin/users/<%= u.id %>/plan">
+              <select name="plan">
+                <option value="free" <%= u.plan === "free" ? "selected" : "" %>>free</option>
+                <option value="pro" <%= u.plan === "pro" ? "selected" : "" %>>pro</option>
+              </select>
+              <button class="btn btn-solid" type="submit">Salvar</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
