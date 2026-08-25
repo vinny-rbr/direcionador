@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require("../db");
 const { requireAuth } = require("../auth");
 const THEMES = require("../themes");
+const ICONS = require("../icons");
 
 router.use(requireAuth);
 
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
   const user = await loadUser(req.session.userId);
   const links = await loadLinks(user.id);
   const socials = await loadSocials(user.id);
-  res.render("dashboard", { user, links, socials, themes: THEMES, message: req.query.msg || null });
+  res.render("dashboard", { user, links, socials, themes: THEMES, icons: ICONS, message: req.query.msg || null });
 });
 
 router.post("/profile", async (req, res) => {
@@ -56,6 +57,16 @@ router.post("/links", async (req, res) => {
   await pool.query(
     "insert into links (user_id, label, url, icon, position) values ($1,$2,$3,$4,$5)",
     [req.session.userId, label, url, icon || "link", rows[0].pos]
+  );
+  res.redirect("/dashboard");
+});
+
+router.post("/links/:id", async (req, res) => {
+  const { label, url, icon } = req.body;
+  if (!label || !url) return res.redirect("/dashboard");
+  await pool.query(
+    "update links set label = $1, url = $2, icon = $3 where id = $4 and user_id = $5",
+    [label, url, icon || "link", req.params.id, req.session.userId]
   );
   res.redirect("/dashboard");
 });
@@ -95,6 +106,16 @@ router.post("/socials", async (req, res) => {
   await pool.query(
     "insert into socials (user_id, icon, url, position) values ($1,$2,$3,$4)",
     [req.session.userId, icon, url, rows[0].pos]
+  );
+  res.redirect("/dashboard");
+});
+
+router.post("/socials/:id", async (req, res) => {
+  const { icon, url } = req.body;
+  if (!url || !icon) return res.redirect("/dashboard");
+  await pool.query(
+    "update socials set icon = $1, url = $2 where id = $3 and user_id = $4",
+    [icon, url, req.params.id, req.session.userId]
   );
   res.redirect("/dashboard");
 });
