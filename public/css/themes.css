@@ -23,6 +23,7 @@
   --glow-2: transparent;
   --glow-3: transparent;
   --cta-text: #0A0A0A;
+  --font-display: 'Space Grotesk', 'Manrope', system-ui, sans-serif;
 }
 
 [data-site-theme="mono"][data-mode="light"] {
@@ -62,7 +63,10 @@
   --glow-2: rgba(139, 92, 246, 0.16);
   --glow-3: rgba(56, 189, 248, 0.10);
   --cta-text: #031014;
+  --font-display: 'Space Grotesk', 'Manrope', system-ui, sans-serif;
 }
+
+[data-site-theme="aurora"] body::before { opacity: 0.5; }
 
 /* ---------- Sunset (PRO) ---------- */
 [data-site-theme="sunset"] {
@@ -82,7 +86,10 @@
   --glow-2: rgba(236, 72, 153, 0.16);
   --glow-3: rgba(168, 85, 247, 0.10);
   --cta-text: #2A0E10;
+  --font-display: 'Fredoka', 'Manrope', system-ui, sans-serif;
 }
+
+[data-site-theme="sunset"] body::before { background-image: none; }
 
 /* ---------- Neon (PRO) ---------- */
 [data-site-theme="neon"] {
@@ -102,11 +109,20 @@
   --glow-2: rgba(34, 240, 255, 0.16);
   --glow-3: rgba(124, 58, 237, 0.12);
   --cta-text: #04030A;
+  --font-display: 'Orbitron', 'Space Grotesk', system-ui, sans-serif;
 }
 
 [data-site-theme="neon"] #links-list li.featured a,
 [data-site-theme="neon"] #avatar {
   box-shadow: 0 0 24px rgba(255, 44, 223, 0.45), 0 0 48px rgba(34, 240, 255, 0.25);
+}
+
+[data-site-theme="neon"] body::before {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    repeating-linear-gradient(0deg, rgba(34, 240, 255, 0.035) 0px, rgba(34, 240, 255, 0.035) 1px, transparent 1px, transparent 3px);
+  background-size: 46px 46px, 46px 46px, 100% 3px;
 }
 
 /* ---------- Rose Gold (PRO) ---------- */
@@ -127,6 +143,12 @@
   --glow-2: rgba(212, 175, 55, 0.2);
   --glow-3: rgba(232, 180, 200, 0.15);
   --cta-text: #3A2A2E;
+  --font-display: 'Playfair Display', 'Georgia', serif;
+}
+
+[data-site-theme="rose-gold"] body::before {
+  background-image: radial-gradient(var(--grid-line) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
 }
 
 /* ---------- Forest (PRO) ---------- */
@@ -147,6 +169,11 @@
   --glow-2: rgba(202, 138, 4, 0.14);
   --glow-3: rgba(34, 197, 94, 0.10);
   --cta-text: #07130A;
+  --font-display: 'Quicksand', 'Manrope', system-ui, sans-serif;
+}
+
+[data-site-theme="forest"] body::before {
+  background-image: repeating-linear-gradient(45deg, var(--grid-line) 0px, var(--grid-line) 1px, transparent 1px, transparent 14px);
 }
 
 /* ---------- Base structural styles (shared by every theme) ---------- */
@@ -247,7 +274,7 @@ a { color: inherit; }
 }
 
 #profile-name {
-  font-family: 'Space Grotesk', 'Manrope', system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 20px;
   line-height: 28px;

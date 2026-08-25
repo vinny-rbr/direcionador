@@ -139,7 +139,12 @@
           <% Object.entries(themes).forEach(([key, def]) => { %>
             <form method="POST" action="/dashboard/theme" class="theme-card <%= user.theme === key ? 'theme-card--active' : '' %>">
               <input type="hidden" name="theme" value="<%= key %>">
-              <div class="theme-swatch" data-site-theme="<%= key %>"></div>
+              <div class="theme-swatch" data-site-theme="<%= key %>">
+                <div class="theme-swatch-avatar"></div>
+                <div class="theme-swatch-name"></div>
+                <div class="theme-swatch-btn theme-swatch-btn--featured"></div>
+                <div class="theme-swatch-btn"></div>
+              </div>
               <span><%= def.name %></span>
               <% if (!def.free && user.plan !== "pro") { %>
                 <span class="lock-badge">🔒 PRO</span>
