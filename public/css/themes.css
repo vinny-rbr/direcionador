@@ -176,6 +176,42 @@
   background-image: repeating-linear-gradient(45deg, var(--grid-line) 0px, var(--grid-line) 1px, transparent 1px, transparent 14px);
 }
 
+/* ---------- Personalizado (PRO) ---------- */
+[data-site-theme="custom"] {
+  --bg-deep: #0A0F1E;
+  --surface: rgba(255, 255, 255, 0.12);
+  --surface-hover: rgba(255, 255, 255, 0.20);
+  --stroke: rgba(255, 255, 255, 0.22);
+  --text-main: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.78);
+  --highlight: rgba(255, 255, 255, 0.16);
+  --accent-a: #60A5FA;
+  --accent-b: #60A5FA;
+  --avatar-ring: rgba(255, 255, 255, 0.45);
+  --toggle-bg: rgba(255, 255, 255, 0.14);
+  --grid-line: transparent;
+  --glow-1: transparent;
+  --glow-2: transparent;
+  --glow-3: transparent;
+  --cta-text: #0A0A0A;
+  --font-display: 'Space Grotesk', 'Manrope', system-ui, sans-serif;
+}
+
+[data-site-theme="custom"] #links-list a {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+#avatar-photo {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto;
+  border-radius: 24px;
+  border: 1.5px solid var(--avatar-ring);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  object-fit: cover;
+  display: block;
+}
+
 /* ---------- Base structural styles (shared by every theme) ---------- */
 body {
   min-height: 100vh;

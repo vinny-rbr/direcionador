@@ -13,6 +13,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fredoka:wght@500;600;700&family=Orbitron:wght@600;700;800&family=Playfair+Display:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/themes.css">
+  <% if (themeKey === "custom") { %>
+  <style>
+    :root, [data-site-theme] {
+      --accent-a: <%= user.custom_accent || "#60A5FA" %>;
+      --accent-b: <%= user.custom_accent || "#60A5FA" %>;
+    }
+    <% if (user.bg_image_url) { %>
+    body {
+      background:
+        linear-gradient(rgba(6, 10, 20, 0.45), rgba(6, 10, 20, 0.65)),
+        url('<%= user.bg_image_url %>') center / cover fixed no-repeat;
+    }
+    <% } %>
+  </style>
+  <% } %>
 </head>
 <body>
   <% if (themeDef.toggle) { %>
@@ -29,7 +44,11 @@
 
   <main id="container">
     <div id="profile">
-      <div id="avatar"><span id="avatar-initials"><%= initials %></span></div>
+      <% if (themeKey === "custom" && user.avatar_image_url) { %>
+        <img id="avatar-photo" src="<%= user.avatar_image_url %>" alt="<%= user.display_name %>">
+      <% } else { %>
+        <div id="avatar"><span id="avatar-initials"><%= initials %></span></div>
+      <% } %>
       <p id="profile-name"><%= user.display_name %></p>
       <span id="profile-bio"><%= user.bio %></span>
     </div>

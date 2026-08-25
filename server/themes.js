@@ -5,6 +5,7 @@ const THEMES = {
   neon: { name: "Neon", free: true, toggle: false },
   "rose-gold": { name: "Rose Gold", free: true, toggle: false },
   forest: { name: "Forest", free: true, toggle: false },
+  custom: { name: "Personalizado", free: false, toggle: false },
 };
 
 module.exports = THEMES;

@@ -1,9 +1,13 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const pool = require("../db");
 const { requireAuth } = require("../auth");
 const THEMES = require("../themes");
 const ICONS = require("../icons");
+const { uploadImage } = require("../blob");
+
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
 router.use(requireAuth);
 
@@ -45,6 +49,39 @@ router.post("/theme", async (req, res) => {
   await pool.query("update users set theme = $1 where id = $2", [theme, req.session.userId]);
   req.session.plan = user.plan;
   res.redirect("/dashboard?msg=" + encodeURIComponent("Tema atualizado."));
+});
+
+router.post("/custom", upload.fields([{ name: "avatar", maxCount: 1 }, { name: "background", maxCount: 1 }]), async (req, res) => {
+  const user = await loadUser(req.session.userId);
+  if (user.plan !== "pro") {
+    return res.redirect("/dashboard?msg=" + encodeURIComponent("Personalização é exclusiva do plano PRO."));
+  }
+
+  try {
+    const updates = {};
+    if (req.files?.avatar?.[0]) {
+      updates.avatar_image_url = await uploadImage(req.files.avatar[0], `avatars/${user.id}`);
+    }
+    if (req.files?.background?.[0]) {
+      updates.bg_image_url = await uploadImage(req.files.background[0], `backgrounds/${user.id}`);
+    }
+    if (req.body.accent && /^#[0-9a-fA-F]{6}$/.test(req.body.accent)) {
+      updates.custom_accent = req.body.accent;
+    }
+
+    const fields = Object.keys(updates);
+    if (fields.length) {
+      const setClause = fields.map((f, i) => `${f} = $${i + 1}`).join(", ");
+      await pool.query(
+        `update users set ${setClause}, theme = 'custom' where id = $${fields.length + 1}`,
+        [...fields.map(f => updates[f]), user.id]
+      );
+    }
+    res.redirect("/dashboard?msg=" + encodeURIComponent("Personalização salva."));
+  } catch (err) {
+    console.error(err);
+    res.redirect("/dashboard?msg=" + encodeURIComponent(err.message || "Erro ao salvar personalização."));
+  }
 });
 
 router.post("/links", async (req, res) => {

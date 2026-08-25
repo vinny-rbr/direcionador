@@ -156,6 +156,29 @@
           <% }) %>
         </div>
       </section>
+
+      <section class="panel">
+        <h2>Personalizar <span class="lock-badge lock-badge--inline">PRO</span></h2>
+        <% if (user.plan !== "pro") { %>
+          <p class="hint">Exclusivo do plano PRO: suba sua própria foto de fundo, foto de perfil e escolha a cor de destaque.</p>
+        <% } else { %>
+          <p class="hint">Isso ativa o tema <strong>Personalizado</strong>. JPG, PNG, WEBP ou GIF, até 5MB.</p>
+          <form method="POST" action="/dashboard/custom" enctype="multipart/form-data" class="custom-form">
+            <label>Foto de perfil
+              <% if (user.avatar_image_url) { %><img class="custom-preview custom-preview--round" src="<%= user.avatar_image_url %>" alt=""><% } %>
+              <input type="file" name="avatar" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+            <label>Foto de fundo
+              <% if (user.bg_image_url) { %><img class="custom-preview" src="<%= user.bg_image_url %>" alt=""><% } %>
+              <input type="file" name="background" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+            <label>Cor de destaque
+              <input type="color" name="accent" value="<%= user.custom_accent || '#60A5FA' %>">
+            </label>
+            <button class="btn btn-solid" type="submit">Salvar personalização</button>
+          </form>
+        <% } %>
+      </section>
     </main>
 
     <aside class="preview-pane">
