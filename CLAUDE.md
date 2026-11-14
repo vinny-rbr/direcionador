@@ -18,3 +18,6 @@ App web (hospedagem Vercel + Postgres no Render). Plano **PRO** ainda não é ve
 - **Play Console**: conta de serviço `play-publicador@meugiro-play...` publica Meu Giro, GD e Conciliaí (no notebook: `~/.play-service.json` + `~/tools/play_upload.py <pacote> <aab> "<nome>" "<notas>" internal,alpha`).
 - **App Store Connect**: chave "GD ASC Key" (no notebook `~/.appstore/`), scripts `~/tools/asc_status.py` e `~/tools/asc_enviar_revisao.py <appId> <versão> <build> "<novidades>"`.
 - Na **nuvem** (claude.ai/code, ambiente "apps") não há SSH da VPS, emulador nem gravação de vídeo — isso só no notebook.
+
+## Pendências do notebook
+O que só dá para fazer no notebook (emulador, vídeo, SSH/banco/logs da VPS, arquivos locais) vai para **`PENDENCIAS-NOTE.md` no repositório `vinny-rbr/meugiro-agentes`**, na **seção deste app**. Na nuvem: anotar lá (commit + push) e avisar o Lucas. No notebook, quando ele disser **"verifica as pendências de note"**: `git pull` nos clones de `C:\Projetos` (sem trocar de ramo nem descartar trabalho), fazer cada item e marcar `[x]` com a data.
